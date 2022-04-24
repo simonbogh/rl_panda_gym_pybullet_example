@@ -18,7 +18,7 @@ This is an example showing how to train a Reinforcement Learning agent using:
 ### Actions
 Action space:
 
-??? (ee_position, ee_velocity, [fingers_width])
+The `PandaReach-v1` environment action space is composed of the gripper movement, three coordinates **Box(3)**, one for each axis of movement x, y, z.
 
 ```
 Box([-1. -1. -1.], [1. 1. 1.], (3,), float32)
@@ -27,7 +27,7 @@ Box([-1. -1. -1.], [1. 1. 1.], (3,), float32)
 ### Observation
 Observation space:
 
-??? observation = robot state ???
+The `PandaReach-v1` environment has the following observations, where *observation* is the position and speed of the gripper **Box(6)**.
 
 ```
 Dict(
@@ -41,15 +41,17 @@ Dict(
 ```
 
 ### Reward
+The `PandaReach-v1` environment comes with both `sparse` and `dense` reward functions. Default is the sparse reward function, which returns 0 or -1 if the *desired goal* was reached within some tolerance. The dense reward function is the negative of the distance *d* between the *desired goal* and the *achieved goal*.
+
 ```python
+distance_threshold = 0.05  # Distance threshold in meters
+d = distance(achieved_goal, desired_goal)  # Norm distance (Euclidean distance)
+
 if self.reward_type == "sparse":
     return -(d > self.distance_threshold).astype(np.float32)
 else:
     return -d
 ```
-Sparse
-
-Dense
 
 ## Installation
 
@@ -66,7 +68,7 @@ $ conda activate rl_panda_gym_py38
 ### Clone repo
 
 ```sh
-$ git clone https://github.com/omtp_panda_gym.git
+$ git clone https://github.com/simonbogh/rl_panda_gym_pybullet_example.git
 ```
 
 ### Install python packages
@@ -85,7 +87,7 @@ We need the following Python packages, which are all defined in `requirements.tx
 
 
 ```
-$ cd omtp_panda_gym
+$ cd rl_panda_gym_pybullet_example
 $ pip install -r requirements.txt
 ```
 
@@ -96,8 +98,7 @@ No Reinforcement Learning agent is trained. Check the next section for how to tr
 
 ```python
 import gym
-# Import panda_gym to register the Panda pybullet environments
-import panda_gym
+import panda_gym  # Import panda_gym to register the Panda pybullet environments
 
 
 def run_random_agent():
@@ -165,6 +166,9 @@ $ python panda_reach_train_agent.py
 ![pybullet_simulation_gif](docs/training.gif)
 
 ## Test PPO agent
+A trained agent/policy can be tested by loading the model saved during training. A trained model can be found in the folder `rl-trained-agents/`.
+
+`panda_reach_test_agent.py` loads a saved model and runs the pybullet simulation using that model as the policy for the agent.
 
 ```sh
 $ python panda_reach_test_agent.py
@@ -173,7 +177,7 @@ $ python panda_reach_test_agent.py
 ![pybullet_simulation_gif](docs/test_agent.gif)
 
 ## Using tensorboard to track training
-Tensorboard log files are saved to the `runs/` folder.
+Tensorboard log files are saved to the `runs/` folder. Make sure to set `tensorboard_log="runs"` for the PPO model before training. When training is running, run the following in your terminal to start tensorboard.
 
 ```sh
 $ tensorboard --logdir runs
