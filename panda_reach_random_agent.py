@@ -5,7 +5,12 @@ import panda_gym
 def run_random_agent():
     #############################
     # Import gym environment
-    env = gym.make("PandaReach-v1", render=True, reward_type="dense")
+    env = gym.make(
+        "PandaReach-v2",
+        render=True,
+        reward_type="dense",  # "dense" or "sparse"
+        control_type="ee",  # "ee" or "joints"
+    )
 
     #############################
     # Print action and observation space details

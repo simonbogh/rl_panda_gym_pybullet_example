@@ -16,10 +16,18 @@ Reward functions:
     Sparse: -(d > distance_threshold).astype(np.float32)
     Dense:  -d
 
+Actions (control_type):
+    "ee": end-effector x, y, z
+    "joints": joint 1-7
 """
 #############################
 # Create environment
-env = gym.make("PandaReach-v1", render=True, reward_type="dense")
+env = gym.make(
+    "PandaReach-v2",
+    render=True,
+    reward_type="dense",  # "dense" or "sparse"
+    control_type="ee",  # "ee" or "joints"
+)
 
 #############################
 # Set up policy and train agent
@@ -53,4 +61,4 @@ model.learn(
 
 #############################
 # Save trained model
-model.save("PandaReach_PPO_v1_model")
+model.save("PandaReach_PPO_v2_ee_model")

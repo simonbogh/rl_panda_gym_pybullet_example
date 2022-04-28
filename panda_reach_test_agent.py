@@ -6,12 +6,17 @@ from stable_baselines3.common.env_util import make_vec_env
 
 #############################
 # Load environment
-env = gym.make("PandaReach-v1", render=True, reward_type="dense")
+env = gym.make(
+    "PandaReach-v2",
+    render=True,
+    reward_type="dense",  # "dense" or "sparse"
+    control_type="ee",  # "ee" or "joints"
+)
 
 #############################
 # Load trained model
 model = PPO.load(
-    "./rl-trained-agents/PandaReach_PPO_v1_model.zip",
+    "./rl-trained-agents/PandaReach_PPO_v2_ee_model.zip",
     print_system_info=True,
     device="auto",
 )

@@ -1,10 +1,10 @@
-black
+black==22.3.0
 gym==0.21.0
-panda-gym==1.1.1
-pybullet==3.2.2
+panda-gym==2.0.0
+pybullet==3.2.4
 pyglet==1.5.23
 sb3-contrib==1.5.0
 scikit-learn==1.0.2
 tensorboard==2.8.0
 torch==1.11.0
-wandb
+wandb==0.12.15
