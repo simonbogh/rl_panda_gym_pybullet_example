@@ -124,3 +124,9 @@ dmypy.json
 .pyre/
 
 .DS_Store
+
+# wandb runs
+wandb/
+
+# vscode
+.vscode/
