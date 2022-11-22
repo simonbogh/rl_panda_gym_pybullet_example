@@ -88,16 +88,17 @@ $ git clone https://github.com/simonbogh/rl_panda_gym_pybullet_example.git
 
 We need the following Python packages, which are all defined in `requirements.txt`.
 
-* black==22.3.0
+* black==22.10.0
 * gym==0.21.0
 * panda-gym==2.0.0
+* protobuf==3.20.3
 * pybullet==3.2.4
-* pyglet==1.5.23
-* sb3-contrib==1.5.0
-* scikit-learn==1.0.2
-* tensorboard==2.8.0
-* torch==1.11.0
-* wandb==0.12.15
+* pyglet==2.0.0
+* sb3-contrib==1.6.2
+* scikit-learn==1.1.3
+* tensorboard==2.11.0
+* torch==1.13.0
+* wandb==0.13.5
 
 ```
 $ cd rl_panda_gym_pybullet_example
