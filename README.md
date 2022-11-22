@@ -210,3 +210,17 @@ Weights & Biases (wandb) can be used instead of tensorboard to track the trainin
 
 https://docs.wandb.ai/guides/integrations/other/stable-baselines-3
 ![wandb](docs/wandb.png)
+
+## Troubleshooting
+
+### OpenGL / Iris / libstdc issue on laptop with dedicated Nvidia GPU
+When running the simulation in an Anaconda environment on a latop with a dedicated Nvidia GPU, you may get an error related to OpenGL, Iris and libstdc.
+
+In this case, change the Nvidia settings to always use the dedicated Nvidia GPU:
+
+1. Open `NVIDIA X server Settings`
+1. Select `PRIME Profiles`
+1. Select `NVIDIA (Performance Mode)`
+1. Restart computer
+
+Source: https://askubuntu.com/questions/1255049/use-dedicated-gpu-only-on-laptop-running-ubuntu-20-04
