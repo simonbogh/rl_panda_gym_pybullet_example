@@ -7,7 +7,9 @@ from stable_baselines3.common.env_util import make_vec_env
 """
 Train PPO agent in the PandaReach-v1 environment.
 
-We use a dense reward function, which makes it easier to learn a policy than with a sparse reward function. A dense reward function can also be used.
+We use a dense reward function, which makes it easier to learn a
+policy than with a sparse reward function. A sparse reward function
+can also be used.
 
 Reward functions:
     distance_threshold = 0.05
@@ -19,7 +21,11 @@ Reward functions:
 Actions (control_type):
     "ee": end-effector x, y, z
     "joints": joint 1-7
+
+Start tensorboard to track training progress:
+    tensorboard --logdir=runs
 """
+
 #############################
 # Create environment
 env = gym.make(
