@@ -225,3 +225,22 @@ In this case, change the Nvidia settings to always use the dedicated Nvidia GPU:
 1. Restart computer
 
 Source: https://askubuntu.com/questions/1255049/use-dedicated-gpu-only-on-laptop-running-ubuntu-20-04
+
+### Git lfs
+Pretrained models are stored using git lfs. Make sure to install git lfs and pull pretrained models.
+
+Ubuntu:
+
+```sh
+sudo apt install git-lfs
+git lfs install
+git lfs pull
+```
+
+macOS:
+
+```sh
+brew install git-lfs
+git lfs install
+git lfs pull
+```
