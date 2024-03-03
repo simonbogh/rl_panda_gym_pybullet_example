@@ -1,7 +1,7 @@
 ## Reinforcement Learning with the Franka Panda robot pybullet simulation
-This is an example showing how to train a Reinforcement Learning agent using:
+This is an example showing how to train a Reinforcement Learning agent for the Franka Panda robot arm using:
 * [PyBullet](https://github.com/bulletphysics/bullet3) physics simulation
-* [OpenAI gym](https://github.com/openai/gym) RL API
+* [Gymnasium (formerly OpenAI gym)](https://gymnasium.farama.org) RL API
 * [panda-gym](https://github.com/qgallouedec/panda-gym) robot environments in PyBullet
 * [Stable-Baselines3](https://stable-baselines3.readthedocs.io/) RL algorithms library
 
@@ -18,20 +18,24 @@ This is an example showing how to train a Reinforcement Learning agent using:
 ### Actions
 Action space:
 
-The `PandaReach-v2` environment action space is composed of the gripper movement, three coordinates **Box(3)**, one for each axis of movement x, y, z, or joint movement, seven joints **Box(7)**.
+The `PandaReach-v3` environment action space is composed of the gripper movement, three coordinates **Box(3)**, one for each axis of movement x, y, z, or joint movement, seven joints **Box(7)**.
 
+ee
 ```
-Box([-1. -1. -1.], [1. 1. 1.], (3,), float32)
+Box(-1.0, 1.0, (3,), float32)
+```
 
-Box([-1. -1. -1. -1. -1. -1. -1.], [1. 1. 1. 1. 1. 1. 1.], (7,), float32)
+joints
+```
+Box(-1.0, 1.0, (7,), float32)
 ```
 
 The action space can be selected by setting `control_type` when creating the environment.
 
 ```python
 env = gym.make(
-    "PandaReach-v2",
-    render=True,
+    "PandaReach-v3",
+    render_mode="human",
     reward_type="dense",  # "dense" or "sparse"
     control_type="ee",  # "ee" or "joints"
 )
@@ -40,21 +44,21 @@ env = gym.make(
 ### Observation
 Observation space:
 
-The `PandaReach-v2` environment has the following observations, where *observation* is the position and speed of the gripper **Box(6)**.
+The `PandaReach-v3` environment has the following observations, where *observation* is the position and speed of the gripper **Box(6)**.
 
 ```
 Dict(
     achieved_goal:
-        Box([-10. -10. -10.], [10. 10. 10.], (3,), float32),
+        Box(-10.0, 10.0, (3,), float32),
     desired_goal:
-        Box([-10. -10. -10.], [10. 10. 10.], (3,), float32),
+        Box(-10.0, 10.0, (3,), float32),
     observation:
-        Box([-10. -10. -10. -10. -10. -10.], [10. 10. 10. 10. 10. 10.], (6,), float32)
+        Box(-10.0, 10.0, (6,), float32)
     )
 ```
 
 ### Reward
-The `PandaReach-v2` environment comes with both `sparse` and `dense` reward functions. Default is the sparse reward function, which returns 0 or -1 if the *desired goal* was reached within some tolerance. The dense reward function is the negative of the distance *d* between the *desired goal* and the *achieved goal*.
+The `PandaReach-v3` environment comes with both `sparse` and `dense` reward functions. Default is the sparse reward function, which returns 0 or -1 if the *desired goal* was reached within some tolerance. The dense reward function is the negative of the distance *d* between the *desired goal* and the *achieved goal*.
 
 ```python
 distance_threshold = 0.05  # Distance threshold in meters
@@ -88,17 +92,22 @@ $ git clone https://github.com/simonbogh/rl_panda_gym_pybullet_example.git
 
 We need the following Python packages, which are all defined in `requirements.txt`.
 
-* black==22.10.0
-* gym==0.21.0
-* panda-gym==2.0.0
-* protobuf==3.20.3
-* pybullet==3.2.4
-* pyglet==2.0.0
-* sb3-contrib==1.6.2
-* scikit-learn==1.1.3
-* tensorboard==2.11.0
-* torch==1.13.0
-* wandb==0.13.5
+* black==24.2.0
+* gym==0.26.2
+* gymnasium==0.29.1
+* panda-gym==3.0.7
+* protobuf==4.25.3
+* pybullet==3.2.6
+* pyglet==2.0.10
+* pygame==2.5.2
+* sb3-contrib==2.2.1
+* scikit-learn==1.3.2
+* stable-baselines3==2.2.1
+* tensorboard==2.14.0
+* torch==2.2.0
+* wandb==0.16.3
+* tqdm==4.66.2
+* rich==13.7.0
 
 ```
 $ cd rl_panda_gym_pybullet_example
@@ -106,20 +115,20 @@ $ pip install -r requirements.txt
 ```
 
 ## Random agent
-The following example tests the installation of `panda_gym` and `pybullet`. It runs the `PandaReach-v2` pybullet environment and sends random actions to the robot.
+The following example tests the installation of `panda_gym` and `pybullet`. It runs the `PandaReach-v3` pybullet environment and sends random actions to the robot.
 
 No Reinforcement Learning agent is trained. Check the next section for how to train an agent using Stable-Baselines3.
 
 ```python
-import gym
+import gymnasium as gym
 import panda_gym  # Import panda_gym to register the Panda pybullet environments
 
 
 def run_random_agent():
     # Create gym training environment
     env = gym.make(
-        "PandaReach-v2",
-        render=True,
+        "PandaReach-v3",
+        render_mode="human",
         reward_type="dense",  # "dense" or "sparse"
         control_type="ee",  # "ee" or "joints"
     )
@@ -134,7 +143,7 @@ def run_random_agent():
     while True:
         # Take random action
         action = env.action_space.sample()  # random action
-        obs, reward, done, info = env.step(action)
+        obs, rewards, dones, truncated, info = env.step(action)
         env.render()  # Make the rendering real-time (1x)
 
     env.close()
@@ -145,17 +154,17 @@ if __name__ == "__main__":
 ```
 
 ## Train PPO agent with Stable-Baselines3
-Minimal example showing how to train a PPO agent for the `PandaReach-v2` task using Stable-Baselines3.
+Minimal example showing how to train a PPO agent for the `PandaReach-v3` task using Stable-Baselines3.
 
 ```python
-import gym
+import gymnasium as gym
 import panda_gym
 from stable_baselines3 import PPO
 
 # Create gym training environment
 env = gym.make(
-    "PandaReach-v2",
-    render=True,
+    "PandaReach-v3",
+    render_mode="human",
     reward_type="dense",  # "dense" or "sparse"
     control_type="ee",  # "ee" or "joints"
 )
@@ -173,7 +182,7 @@ model = PPO(
 model.learn(total_timesteps=200000)
 
 # Save trained model
-model.save("PandaReach_v2_model")
+model.save("PandaReach_v3_model")
 ```
 
 The following python script includes more hyper-parameters and settings that can be adapted when training the agent.

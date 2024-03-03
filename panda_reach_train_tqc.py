@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 import panda_gym
 import torch as th
 from sb3_contrib import TQC
@@ -7,7 +7,7 @@ from datetime import datetime
 from stable_baselines3.common.vec_env import VecNormalize
 
 """
-Train TQC agent in the PandaReach-v2 environment.
+Train TQC agent in the PandaReach-v3 environment.
 
 TQC is able to train on sparse rewards, and is able to learn
 a policy that is able to reach the goal.
@@ -15,20 +15,22 @@ a policy that is able to reach the goal.
 Control type and training time with a sparse reward function:
  - "ee": 26.000 timesteps (20 min)
  - "joints": 110.000 timesteps (1hr 30 min)
+
+ Author: Simon Bøgh
 """
 
 #############################
 # Define Panda environment variables
-env_name = "PandaReach-v2"
+env_name = "PandaReach-v3"
 reward_type = "sparse"  # "dense" or "sparse"
 control_type = "joints"  # "ee" or "joints"
-render = True
+render_mode = "human"
 
 #############################
 # Create environment
 env = gym.make(
     env_name,
-    render=render,
+    render_mode=render_mode,
     reward_type=reward_type,  # "dense" or "sparse"
     control_type=control_type,  # "ee" or "joints"
 )

@@ -1,13 +1,17 @@
-import gym
+import gymnasium as gym
 import panda_gym
 
+"""
+Run a random agent in the PandaReach-v3 environment.
 
+Author: Simon Bøgh
+"""
 def run_random_agent():
     #############################
     # Import gym environment
     env = gym.make(
-        "PandaReach-v2",
-        render=True,
+        'PandaReach-v3', 
+        render_mode="human",
         reward_type="dense",  # "dense" or "sparse"
         control_type="ee",  # "ee" or "joints"
     )
@@ -28,7 +32,7 @@ def run_random_agent():
     while True:
         # Take random action
         action = env.action_space.sample()  # random action
-        obs, reward, done, info = env.step(action)
+        obs, reward, done, truncated, info = env.step(action)
         env.render()  # Make the rendering real-time (1x)
 
     env.close()

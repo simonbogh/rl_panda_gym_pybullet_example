@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 import panda_gym
 import torch as th
 from stable_baselines3 import PPO
@@ -6,7 +6,7 @@ from stable_baselines3.common.env_util import make_vec_env
 from datetime import datetime
 
 """
-Train PPO agent in the PandaReach-v1 environment.
+Train PPO agent in the PandaReach-v3 environment.
 
 We use a dense reward function, which makes it easier to learn a
 policy than with a sparse reward function. A sparse reward function
@@ -25,20 +25,22 @@ Actions (control_type):
 
 Start tensorboard to track training progress:
     tensorboard --logdir=runs
+
+Author: Simon Bøgh
 """
 
 #############################
 # Define Panda environment variables
-env_name = "PandaReach-v2"
+env_name = "PandaReach-v3"
 reward_type = "dense"  # "dense" or "sparse"
-control_type = "ee"  # "ee" or "joints"
-render = True
+control_type = "joints"  # "ee" or "joints"
+render_mode = "human"  # "human" or "rgb_array"
 
 #############################
 # Create environment
 env = gym.make(
     env_name,
-    render=render,
+    render_mode=render_mode,  # "human" or "rgb_array"
     reward_type=reward_type,  # "dense" or "sparse"
     control_type=control_type,  # "ee" or "joints"
 )
