@@ -1,3 +1,10 @@
+import os
+
+# Set environment variables for macOS. This is necessary for the PyBullet physics engine,
+# else it may crash when training because of libomp.dylib on macOS.
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+os.environ['OMP_NUM_THREADS'] = '1'
+
 import gymnasium as gym
 import panda_gym
 import torch as th
