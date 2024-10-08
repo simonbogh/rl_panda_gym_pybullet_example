@@ -70,7 +70,7 @@ tb_log_name = f"{env_name}_PPO_{control_type}_model_lr{learning_rate}_bs{batch_s
 # Custom actor (pi) and value function (vf) networks
 # of two layers of size 64 each with Relu activation function
 policy_kwargs = dict(
-    activation_fn=th.nn.ReLU, net_arch=[dict(pi=pi_hidden_units, vf=vf_hidden_units)]
+    activation_fn=th.nn.ReLU, net_arch=dict(pi=pi_hidden_units, vf=vf_hidden_units)
 )
 
 #############################
