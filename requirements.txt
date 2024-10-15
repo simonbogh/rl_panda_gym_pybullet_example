@@ -1,4 +1,4 @@
-black==24.2.0
+black==24.8.0
 gym==0.26.2
 gym-notices==0.0.8
 gymnasium==0.29.1
@@ -13,5 +13,5 @@ stable-baselines3==2.2.1
 tensorboard==2.14.0
 torch==2.2.0
 wandb==0.16.3
-tqdm==4.66.2
+tqdm==4.66.5
 rich==13.7.0

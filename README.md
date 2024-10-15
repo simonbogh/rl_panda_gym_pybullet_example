@@ -92,7 +92,7 @@ $ git clone https://github.com/simonbogh/rl_panda_gym_pybullet_example.git
 
 We need the following Python packages, which are all defined in `requirements.txt`.
 
-* black==24.2.0
+* black==24.8.0
 * gym==0.26.2
 * gymnasium==0.29.1
 * panda-gym==3.0.7
